@@ -23,8 +23,7 @@ defmodule HexQuery.MixProject do
   defp deps do
     [
       {:ex_cli, "~> 0.1.6"},
-      {:httpoison, "~> 1.5.1"},
-      {:circuits_i2c, "~> 0.3.4"}
+      {:httpoison, "~> 1.5.1"}
     ]
   end
 end

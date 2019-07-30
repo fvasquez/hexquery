@@ -19,15 +19,15 @@ $ mix escript.install
 List all packages on Hex that depend on `circuits_i2c`.
 
 ```bash
-$ hexquery list --dependents circuits_i2c
+$ hexquery dependents circuits_i2c
 atecc508a
 ads1115
 hts221
 ```
 
-NOTE: The remaining examples are only intended for Nerves developers.
+NOTE: The remaining examples are intended only for Nerves developers.
 
-Install i2c-tools on your target device and scan all buses for peripherals.
+Install i2c-tools on your target embedded Linux system and scan all I2C buses for peripheral devices.
 
 ```bash
 $ i2cdetect -y 1
@@ -42,12 +42,12 @@ $ i2cdetect -y 1
 70: -- -- -- -- -- -- -- --
 ```
 
-Scanning bus `i2c-1` detected a single device with an I2C address of `0x60`.
+Scanning bus `i2c-1` found a single peripheral device with an I2C address of `0x60`.
 
-Search Hex for any packages that depend on `circuits_i2c` and contain `0x60` somewhere in their metadata.
+Now search Hex for any packages that depend on `circuits_i2c` and contain `0x60` somewhere in their description.
 
 ```bash
-$ hexquery list --dependents circuits_i2c --containing "0xC0"
+$ hexquery dependents circuits_i2c --containing "0x60"
 atecc508a
 ```
 

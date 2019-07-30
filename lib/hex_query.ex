@@ -11,15 +11,19 @@ defmodule HexQuery do
 
   command :dependents do
     aliases [:children]
-    description "Search for package dependents"
+    description "List package dependents"
     long_description """
     Lists all the packages in Hex that depend on a given package
     """
 
     argument :package
+    option :containing, help: "a search string"
 
     run context do
-      IO.puts("TODO: Query Hex.pm for #{context.package} dependents")
+      if search_string = context[:containing] do
+        IO.puts("TODO: Filter #{context.package}'s dependents by #{search_string}")
+      end
+      IO.puts("TODO: Query Hex.pm for #{context.package}'s dependents")
     end
   end
 end
