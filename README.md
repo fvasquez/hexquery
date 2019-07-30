@@ -1,6 +1,6 @@
 # HexQuery
 
-**A CLI tool for discovering Elixir/Erlang libraries on Hex**
+A CLI tool for discovering Elixir/Erlang libraries on Hex
 
 ## Installation
 
@@ -19,26 +19,36 @@ $ mix escript.install
 List all packages on Hex that depend on `circuits_i2c`.
 
 ```bash
-$ hexquery dependents circuits_i2c
+$ hexquery list --dependents circuits_i2c
 atecc508a
 ads1115
 hts221
 ```
 
-Scan all I2C buses for peripheral devices.
+NOTE: The remaining examples are only intended for Nerves developers.
+
+Install i2c-tools on your target device and scan all buses for peripherals.
 
 ```bash
-$ sudo hexquery i2c scan
-i2c-1: 0xC0
+$ i2cdetect -y 1
+     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
+00:          -- -- -- -- -- -- -- -- -- -- -- -- --
+10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+60: 60 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
+70: -- -- -- -- -- -- -- --
 ```
 
-Scanning detected a single device on bus `i2c-1` with an I2C address of `0xC0`.
+Scanning bus `i2c-1` detected a single device with an I2C address of `0x60`.
 
-Search Hex for any libraries that depend on `circuits_i2c` and include an I2C address of `0xC0` in their metadata.
+Search Hex for any packages that depend on `circuits_i2c` and contain `0x60` somewhere in their metadata.
 
 ```bash
-$ hexquery i2c drivers 0xC0
+$ hexquery list --dependents circuits_i2c --containing "0xC0"
 atecc508a
 ```
 
-The Microchip [ATECC508A](https://www.microchip.com/wwwproducts/en/ATECC508A) crypto element has an I2C address of `0xC0`. An Elixir interface for this element is published on Hex as [atecc508a](https://hex.pm/packages/atecc508a). Consult [the list](https://learn.adafruit.com/i2c-addresses/the-list) for the I2C addresses of most common sensors and modules.
+The Microchip [ATECC508A](https://www.microchip.com/wwwproducts/en/ATECC508A) crypto element has an I2C address of `0x60`. An Elixir interface for this element is published on Hex as [atecc508a](https://hex.pm/packages/atecc508a). Consult [the list](https://learn.adafruit.com/i2c-addresses/the-list) for the I2C addresses of most common sensors and modules.
