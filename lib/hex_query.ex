@@ -17,19 +17,26 @@ defmodule HexQuery do
     """
 
     argument :package
-    option :containing, help: "a search string"
+    option :containing, help: "a description search string to filter by"
 
     run context do
       HTTPoison.start
+
       url = "https://hex.pm/api/packages?search=depends%3A#{context.package}"
+
       case HTTPoison.get(url) do
         {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
           body
           |> Jason.decode!
-          |> Enum.map(fn(obj) -> IO.puts obj["name"] end)
-          if search_string = context[:containing] do
-            IO.puts "TODO: Filter #{context.package}'s dependents by #{search_string}"
-          end
+          |> Enum.filter(fn(package) ->
+                if search_string = context[:containing] do
+                  description = package["meta"]["description"]
+                  String.contains?(description, search_string)
+                else
+                  true
+                end
+             end)
+          |> Enum.map(fn(package) -> IO.puts package["name"] end)
         {:ok, %HTTPoison.Response{status_code: 404}} ->
           IO.puts "Not found :("
         {:error, %HTTPoison.Error{reason: reason}} ->
