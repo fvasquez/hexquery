@@ -24,7 +24,6 @@ defmodule HexQuery.MixProject do
     [
       {:ex_cli, "~> 0.1.6"},
       {:httpoison, "~> 1.5.1"},
-      {:poison, "~> 4.0.1"},
       {:jason, "~> 1.1.2"}
     ]
   end

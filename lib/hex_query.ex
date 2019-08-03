@@ -20,13 +20,21 @@ defmodule HexQuery do
     option :containing, help: "a search string"
 
     run context do
-      HexAPI.start
-      url = "/packages?search=depends%3A#{context.package}"
-      _response = HexAPI.get!(url)
-      if search_string = context[:containing] do
-        IO.puts "TODO: Filter #{context.package}'s dependents by #{search_string}"
+      HTTPoison.start
+      url = "https://hex.pm/api/packages?search=depends%3A#{context.package}"
+      case HTTPoison.get(url) do
+        {:ok, %HTTPoison.Response{status_code: 200, body: body}} ->
+          body
+          |> Jason.decode!
+          |> Enum.map(fn(obj) -> IO.puts obj["name"] end)
+          if search_string = context[:containing] do
+            IO.puts "TODO: Filter #{context.package}'s dependents by #{search_string}"
+          end
+        {:ok, %HTTPoison.Response{status_code: 404}} ->
+          IO.puts "Not found :("
+        {:error, %HTTPoison.Error{reason: reason}} ->
+          IO.inspect reason
       end
-      #IO.puts(response.body[:url])
     end
   end
 end
