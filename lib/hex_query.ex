@@ -21,13 +21,12 @@ defmodule HexQuery do
 
     run context do
       HexAPI.start
-      #url = "/packages?search=depends%3A#{context.package}"
-      url = "/packages/#{context.package}"
-      response = HexAPI.get!(url)
+      url = "/packages?search=depends%3A#{context.package}"
+      _response = HexAPI.get!(url)
       if search_string = context[:containing] do
-        IO.puts("TODO: Filter #{context.package}'s dependents by #{search_string}")
+        IO.puts "TODO: Filter #{context.package}'s dependents by #{search_string}"
       end
-      IO.puts(response.body[:url])
+      #IO.puts(response.body[:url])
     end
   end
 end

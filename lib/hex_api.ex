@@ -13,8 +13,11 @@ defmodule HexAPI do
 
   def process_response_body(body) do
     body
-    |> Poison.decode!
-    |> Map.take(@expected_fields)
-    |> Enum.map(fn({k, v}) -> {String.to_atom(k), v} end)
+    |> Jason.decode!
+    |> Enum.map(fn(obj) -> IO.puts obj["name"] end)
+    #body
+    #|> Poison.decode!
+    #|> Map.take(@expected_fields)
+    #|> Enum.map(fn({k, v}) -> {String.to_atom(k), v} end)
   end
 end
