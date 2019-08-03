@@ -20,10 +20,14 @@ defmodule HexQuery do
     option :containing, help: "a search string"
 
     run context do
+      HexAPI.start
+      #url = "/packages?search=depends%3A#{context.package}"
+      url = "/packages/#{context.package}"
+      response = HexAPI.get!(url)
       if search_string = context[:containing] do
         IO.puts("TODO: Filter #{context.package}'s dependents by #{search_string}")
       end
-      IO.puts("TODO: Query Hex.pm for #{context.package}'s dependents")
+      IO.puts(response.body[:url])
     end
   end
 end
