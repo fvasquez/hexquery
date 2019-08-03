@@ -20,35 +20,16 @@ List all packages on Hex that depend on `circuits_i2c`.
 
 ```bash
 $ hexquery dependents circuits_i2c
-atecc508a
 ads1115
+atecc508a
 hts221
 ```
 
-NOTE: The remaining examples are intended only for Nerves developers.
-
-Install i2c-tools on your target embedded Linux system and scan all I2C buses for peripheral devices.
+Now search Hex for any packages that depend on `circuits_i2c` and contain "sensor" somewhere in their description.
 
 ```bash
-$ i2cdetect -y 1
-     0  1  2  3  4  5  6  7  8  9  a  b  c  d  e  f
-00:          -- -- -- -- -- -- -- -- -- -- -- -- --
-10: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-20: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-30: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-40: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-50: -- -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-60: 60 -- -- -- -- -- -- -- -- -- -- -- -- -- -- --
-70: -- -- -- -- -- -- -- --
+$ hexquery dependents circuits_i2c --containing "sensor"
+hts221
 ```
 
-Scanning bus `i2c-1` found a single peripheral device with an I2C address of `0x60`.
-
-Now search Hex for any packages that depend on `circuits_i2c` and contain `0x60` somewhere in their description.
-
-```bash
-$ hexquery dependents circuits_i2c --containing "0x60"
-atecc508a
-```
-
-The Microchip [ATECC508A](https://www.microchip.com/wwwproducts/en/ATECC508A) crypto element has an I2C address of `0x60`. An Elixir interface for this element is published on Hex as [atecc508a](https://hex.pm/packages/atecc508a). Consult [the list](https://learn.adafruit.com/i2c-addresses/the-list) for the I2C addresses of most common sensors and modules.
+Replace "sensor" with any quoted search string you wish to filter the resulting package list by. The search only applies to the contents of the description field in the meta section of the package JSON.
