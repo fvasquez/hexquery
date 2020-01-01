@@ -23,7 +23,7 @@ defmodule HexQuery.MixProject do
   defp deps do
     [
       {:ex_cli, "~> 0.1.6"},
-      {:httpoison, "~> 1.5.1"},
+      {:httpoison, "~> 1.6.2"},
       {:jason, "~> 1.1.2"}
     ]
   end
